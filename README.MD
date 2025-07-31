@@ -152,7 +152,7 @@ tasks.processResources {
 
 //Pull in the zanama runtime.
 dependencies {
-    implementation("com.falsepattern:zanama:ZANAMA_VERSION")
+    implementation("com.falsepattern:zanama-rt:ZANAMA_VERSION")
 }
 ```
 
