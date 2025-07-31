@@ -1,0 +1,52 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [master]
+
+  pull_request:
+    branches: [master]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK versions
+        uses: actions/setup-java@v4
+        with:
+          java-version: |
+            24
+            21
+          distribution: 'adopt'
+
+      - name: Set up Zig
+        uses: falsepattern/setup-zig@v2
+        with:
+          version: 0.14.1
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run tests
+        run: ./gradlew build check
+
+      - name: Attach gradle reports
+        if: failure() && steps.build_mod.conclusion == 'failure'
+        uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: ${{ github.repository_id }}-reports
+          path: build/reports/
+          retention-days: 31
+
+      - name: Stop gradle
+        run: ./gradlew --stop

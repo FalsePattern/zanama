@@ -1,0 +1,8 @@
+<component name="CopyrightManager">
+  <settings default="GPL">
+    <module2copyright>
+      <element module="Runtime" copyright="LGPL" />
+      <element module="VNativeLoader" copyright="LGPL-VNL" />
+    </module2copyright>
+  </settings>
+</component>

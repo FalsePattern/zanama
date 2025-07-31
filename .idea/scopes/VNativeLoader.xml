@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="VNativeLoader" pattern="file[zanama-rt.main]:java/com/ventooth/vnativeloader/api/*||file[zanama-rt.main]:java/com/ventooth/vnativeloader/internal/*" />
+</component>

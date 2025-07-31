@@ -1,0 +1,43 @@
+/*
+ * VNativeLoader
+ *
+ * Copyright (C) 2025 Ventooth
+ * All Rights Reserved
+ *
+ * The above copyright notice and this permission notice
+ * shall be included in all copies or substantial portions of the Software.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, only version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: LGPL-3.0-only
+ */
+
+package com.ventooth.vnativeloader.api;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.nio.file.Path;
+
+// TODO: Documentation
+public interface VNativeUnpacker {
+    Path unpackNative(@NotNull Class<?> clazz, @NotNull String nativeClasspath, @NotNull Path nativeFilePath) throws IOException;
+
+    Path unpackNative(@NotNull URI uri, @NotNull Path nativeFilePath) throws IOException;
+
+    Path unpackNative(@NotNull InputStream inputStream, @NotNull Path nativeFilePath) throws IOException;
+
+    Path unpackNative(byte @NotNull [] bytes, @NotNull Path nativeFilePath) throws IOException;
+}

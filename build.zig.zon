@@ -1,0 +1,14 @@
+.{
+    .name = .zanama_tests,
+    .version = "0.0.0",
+    .fingerprint = 0xef71047cc375381c, // Changing this has security and trust implications.
+    .minimum_zig_version = "0.14.1",
+    .dependencies = .{
+        .zanama = .{ .path = "plugin/zig" },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+    },
+}
