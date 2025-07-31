@@ -126,7 +126,7 @@ mavenPublishing {
     pom {
         name = "Zanama"
         description = "A Zig to Java FFI bindings generator, inspired by JExtract."
-        url = "https://gtmega.falsepattern.com/falsepattern/zanama"
+        url = "https://git.falsepattern.com/falsepattern/zanama"
         licenses {
             license {
                 name = "GNU Lesser General Public License v3.0 only"
@@ -141,9 +141,9 @@ mavenPublishing {
             }
         }
         scm {
-            connection = "scm:git:git://gtmega.falsepattern.com/FalsePattern/zanama.git"
-            developerConnection = "scm:git:ssh://gtmega.falsepattern.com/falsepattern/zanama.git"
-            url = "https://gtmega.falsepattern.com/falsepattern/zanama/"
+            connection = "scm:git:git://git.falsepattern.com/FalsePattern/zanama.git"
+            developerConnection = "scm:git:ssh://git.falsepattern.com/falsepattern/zanama.git"
+            url = "https://git.falsepattern.com/falsepattern/zanama/"
         }
     }
 }

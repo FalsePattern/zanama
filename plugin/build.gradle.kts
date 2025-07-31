@@ -54,8 +54,8 @@ tasks.named<Jar>("sourcesJar") {
 }
 
 gradlePlugin {
-    website.set("https://gtmega.falsepattern.com/falsepattern/zanama")
-    vcsUrl.set("https://gtmega.falsepattern.com/falsepattern/zanama")
+    website.set("https://git.falsepattern.com/falsepattern/zanama")
+    vcsUrl.set("https://git.falsepattern.com/falsepattern/zanama")
     plugins {
         create("zanama") {
             id = "com.falsepattern.zanama"
