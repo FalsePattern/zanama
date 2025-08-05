@@ -71,7 +71,7 @@ pub fn build(b: *std.Build) void {
 
     // Generating zanama bindings, as well as the libraries.
     // There are other createZanamaLibs* functions, check the source code for more info
-    const libs = zb.createZanamaLibsQuery("root", root_module, &.{zanama.targets.common.x86_64.linux.baseline});
+    const libs = zb.createZanamaLibsQuery("root", root_module, &.{zanama.target.common.x86_64.linux.baseline});
 
     // Putting the libraries and generated json into the prefix directory (specified in the gradle task)
     const install_step = b.getInstallStep();
