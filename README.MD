@@ -120,7 +120,7 @@ comptime {
 ```kotlin
 val translateJavaSources = layout.buildDirectory.dir("generated/zanama_root")
 
-val zigTranslate = register<ZanamaTranslate>("zigTranslate") {
+val zigTranslate = tasks.register<ZanamaTranslate>("zigTranslate") {
     // zigPrefix variable specified in step 2
     from = zigPrefix.map { it.file("root.json") }
     into = translateJavaSources
