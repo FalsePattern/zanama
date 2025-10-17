@@ -17,7 +17,7 @@ version = "0.1.0"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(JavaVersion.VERSION_24.majorVersion)
+        languageVersion = JavaLanguageVersion.of(JavaVersion.VERSION_25.majorVersion)
         vendor = JvmVendorSpec.ADOPTIUM
     }
 }
@@ -43,8 +43,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.projectlombok:lombok:1.18.38")
-    annotationProcessor("org.projectlombok:lombok:1.18.38")
+    compileOnly("org.projectlombok:lombok:1.18.42")
+    annotationProcessor("org.projectlombok:lombok:1.18.42")
     compileOnly("org.jetbrains:annotations:26.0.2")
 
     implementation("commons-io:commons-io:2.16.1")
