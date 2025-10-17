@@ -102,7 +102,7 @@ pub fn createZanamaLibsResolved(self: Self, name: []const u8, root_module: *std.
     const strip_out = strip_json.captureStdOut();
 
     var artifacts = std.ArrayList(*std.Build.Step.Compile).initCapacity(self.b.allocator, targets.len) catch @panic("OOM");
-    defer artifacts.deinit();
+    defer artifacts.deinit(self.b.allocator);
     for (targets) |resolved| {
         const final_name = blk: {
             const is_native = resolved.query.isNative();
@@ -118,7 +118,7 @@ pub fn createZanamaLibsResolved(self: Self, name: []const u8, root_module: *std.
         artifacts.appendAssumeCapacity(self.createSharedLibrary(root_module, final_name, resolved));
     }
     return .{
-        .artifacts = artifacts.toOwnedSlice() catch @panic("OOM"),
+        .artifacts = artifacts.toOwnedSlice(self.b.allocator) catch @panic("OOM"),
         .json = strip_out,
         .json_step = &strip_json.step,
     };
@@ -144,8 +144,9 @@ fn createJsonGenStep(self: Self, module: *std.Build.Module, name: []const u8, ta
 
 fn createSharedLibrary(self: Self, module: *std.Build.Module, name: []const u8, target: std.Build.ResolvedTarget) *std.Build.Step.Compile {
     const b = self.b;
-    const artifact = b.addSharedLibrary(.{
+    const artifact = b.addLibrary(.{
         .name = name,
+        .linkage = .dynamic,
         .root_module = b.createModule(.{
             .root_source_file = self.dep.path(root_file),
             .target = target,

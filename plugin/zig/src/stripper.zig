@@ -46,8 +46,10 @@ pub fn main() !void {
         @panic("No args???");
     }
 
+    const cwd = std.fs.cwd();
+
     while (args.next()) |arg| {
-        const file = try std.fs.openFileAbsolute(arg, .{});
+        const file = try cwd.openFile(arg, .{});
         defer file.close();
         const data = try file.readToEndAlloc(alloc, std.math.maxInt(usize));
         defer alloc.free(data);
@@ -82,7 +84,7 @@ pub fn main() !void {
         }
     }
     if (first_json) |json| {
-        try std.io.getStdOut().writeAll(json);
+        try std.fs.File.stdout().writeAll(json);
     } else {
         @panic("No input specified!");
     }

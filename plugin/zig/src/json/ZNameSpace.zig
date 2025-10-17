@@ -68,7 +68,7 @@ const ZNamedFn = struct {
     return_type: ?t.Ref = null,
 
     pub fn fromNamedFn(comptime Parent: type, name: []const u8, comptime Fn: std.builtin.Type.Fn, paramNames: ?[]const []const u8, comptime IP: *t.InternPool) ?ZNamedFn {
-        if (!Fn.calling_convention.eql(.C))
+        if (!Fn.calling_convention.eql(.c))
             return null;
 
         const method = if (Fn.params.len >= 1 and Fn.params[0].type != null)

@@ -24,26 +24,11 @@ const common = @import("common.zig");
 const t = @import("t.zig");
 const Binding = @import("../api.zig").Binding;
 
-const BufContext = struct {
-    buf: []u8,
-    written: usize = 0,
-
-    pub fn write(self: *BufContext, bytes: []const u8) error{TooLarge}!usize {
-        const end = self.written + bytes.len;
-        if (end > self.buf.len) {
-            return error.TooLarge;
-        }
-        @memcpy(self.buf[self.written..end], bytes);
-        self.written += bytes.len;
-        return bytes.len;
-    }
-};
-
 pub fn generateJson(comptime bindings: []const Binding) void {
-    comptime var len = 128;
+    comptime var len = 1024;
     const data = common.prefix ++ (comptime while (true) {
         const res = tryGen(len, bindings) catch |err| switch (err) {
-            error.TooLarge => {
+            error.WriteFailed => {
                 len *= 2;
                 continue;
             },
@@ -54,22 +39,18 @@ pub fn generateJson(comptime bindings: []const Binding) void {
 }
 
 fn tryGen(comptime len: usize, comptime bindings: []const Binding) ![]const u8 {
+    @setEvalBranchQuota(100000);
     var buf: [len]u8 = std.mem.zeroes([len]u8);
-    var ctx = BufContext{
-        .buf = &buf,
-    };
-    const writer: std.io.GenericWriter(*BufContext, error{TooLarge}, BufContext.write) = .{
-        .context = &ctx,
-    };
+    var writer = std.Io.Writer.fixed(&buf);
     var ip: t.InternPool = .{};
-    var bw = std.io.bufferedWriter(writer);
-    const stdout = bw.writer();
-    var ws = std.json.writeStream(stdout, .{
-        .whitespace = .minified,
-        .emit_null_optional_fields = false,
-        .escape_unicode = true,
-    });
-    defer ws.deinit();
+    var ws = std.json.Stringify{
+        .writer = &writer,
+        .options = .{
+            .whitespace = .minified,
+            .emit_null_optional_fields = false,
+            .escape_unicode = true,
+        }
+    };
     try ws.beginObject();
     try ws.objectField("bindings");
     try ws.beginObject();
@@ -89,8 +70,8 @@ fn tryGen(comptime len: usize, comptime bindings: []const Binding) ![]const u8 {
     }
     try ws.endObject();
     try ws.endObject();
-    try stdout.print("\n", .{});
-    try bw.flush();
-    const final: [ctx.written]u8 = buf[0..ctx.written].*;
+    try writer.writeAll("\n");
+    const buffered = writer.buffered();
+    const final: [buffered.len]u8 = buf[0..buffered.len].*;
     return &final;
 }

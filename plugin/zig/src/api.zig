@@ -49,7 +49,7 @@ fn exportStruct(comptime Struct: type, comptime name: []const u8) void {
         const declName = decl.name;
         const declRef = @field(Struct, declName);
         const info = @typeInfo(@TypeOf(declRef));
-        if (info == .@"fn" and !info.@"fn".calling_convention.eql(.Unspecified)) {
+        if (info == .@"fn" and !info.@"fn".calling_convention.eql(.auto)) {
             @export(&declRef, .{ .name = name ++ "::" ++ declName });
         }
     }
